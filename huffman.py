@@ -48,6 +48,9 @@ def get_lengths(tree: list, freq_list: list) -> list:
                 queue.append((left, length + 1))
             if right != -1:
                 queue.append((right, length + 1))
+    for i in range(freqs):
+        if freq_list[i] == 0:
+            lengths[i] = 0
     return lengths
 
 def check_lengths(lengths: list) -> list:
