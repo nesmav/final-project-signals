@@ -15,42 +15,44 @@ def count_frequencies(events: list):
             lit_freq[256] += 1
     return lit_freq, dist_freq
 
-def build_Huffman_tree(freq_list: list) -> list:
+def build_Huffman_tree(freq_list: list):
     tree = []
     priority_q = []
     for i in range(len(freq_list)):
         tree.append((freq_list[i], -1, -1))
-        priority_q.append((freq_list[i], i))
+        if freq_list[i] > 0:
+            priority_q.append((freq_list[i], i, i))
+    if len(priority_q) == 0:
+        return tree, -1
     heapq.heapify(priority_q)
     while len(priority_q) > 1:
-        x, index_x = heapq.heappop(priority_q)
-        y, index_y = heapq.heappop(priority_q)
+        x, min_idx_x, index_x = heapq.heappop(priority_q)
+        y, min_idx_y, index_y = heapq.heappop(priority_q)
         total = x + y
         new_index = len(tree)
         tree.append((total, index_x, index_y))
-        heapq.heappush(priority_q, (total, new_index))
-    return tree
+        heapq.heappush(priority_q, (total, min(min_idx_x, min_idx_y), new_index))
+    _, _, root = priority_q[0]
+    return tree, root
 
-def get_lengths(tree: list, freq_list: list) -> list:
+def get_lengths(tree: list, root: int, freq_list: list) -> list:
     queue = deque()
     freqs = len(freq_list)
     lengths = [0] * freqs
-    j = len(tree) - 1
-    queue.append((j, 0))
+    if root == -1:
+        return lengths
+    queue.append((root, 0))
     while queue:
         current_index, length = queue.popleft()
         freq, left, right = tree[current_index]
         if left == -1 and right == -1:
             if current_index < freqs:
-                lengths[current_index] = length
+                lengths[current_index] = max(length, 1)
         else:
             if left != -1:
                 queue.append((left, length + 1))
             if right != -1:
                 queue.append((right, length + 1))
-    for i in range(freqs):
-        if freq_list[i] == 0:
-            lengths[i] = 0
     return lengths
 
 def check_lengths(lengths: list) -> list:

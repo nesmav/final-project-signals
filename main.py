@@ -18,11 +18,11 @@ def compress(input_path: str):
 
     lit_freq, dist_freq = count_frequencies(events)
 
-    lit_tree  = build_Huffman_tree(lit_freq)
-    dist_tree = build_Huffman_tree(dist_freq)
+    lit_tree, root1  = build_Huffman_tree(lit_freq)
+    dist_tree, root2 = build_Huffman_tree(dist_freq)
 
-    lit_lengths  = get_lengths(lit_tree,  lit_freq)
-    dist_lengths = get_lengths(dist_tree, dist_freq)
+    lit_lengths  = get_lengths(lit_tree, root1, lit_freq)
+    dist_lengths = get_lengths(dist_tree, root2, dist_freq)
 
     lit_codes  = canonical_encode(lit_lengths[:])
     dist_codes = canonical_encode(dist_lengths[:])
