@@ -56,6 +56,8 @@ distance_extra_bits = [
 
 
 def encode_length(length: int):
+    if length == 258:
+        return 285, ""
     for i in range(len(length_base) - 1):
         base      = length_base[i]
         n_extra   = length_extra_bits[i]

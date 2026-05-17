@@ -48,6 +48,12 @@ def get_lengths(tree: list, freq_list: list) -> list:
                 queue.append((left, length + 1))
             if right != -1:
                 queue.append((right, length + 1))
+<<<<<<< HEAD
+=======
+    for i in range(freqs):
+        if freq_list[i] == 0:
+            lengths[i] = 0
+>>>>>>> 36ff1b50f5aa6bd8e2c97d56fd431226b53ea001
     return lengths
 
 def check_lengths(lengths: list) -> list:
@@ -81,6 +87,12 @@ def canonical_encode(lengths: list) -> list:
     for symbol in range(len(lengths)):
         length = lengths[symbol]
         if length != 0:
+<<<<<<< HEAD
             symbol_code[symbol] = next_code[length]
             next_code[length] += 1
     return symbol_code
+=======
+            symbol_code[symbol] = format(next_code[length], f'0{length}b')
+            next_code[length] += 1
+    return symbol_code
+>>>>>>> 36ff1b50f5aa6bd8e2c97d56fd431226b53ea001
