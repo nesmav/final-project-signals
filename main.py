@@ -2,7 +2,7 @@ import sys
 import os
 
 from LZ77           import lz77_compress
-from defaultSymbols import lz77_to_events
+from deflateSymbols import lz77_to_events
 from huffman        import count_frequencies, build_Huffman_tree, get_lengths, canonical_encode
 from fileFormat     import write_compressed, read_compressed
 

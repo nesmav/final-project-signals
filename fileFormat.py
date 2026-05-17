@@ -1,7 +1,7 @@
 import math
 from bitIO import BitWriter, BitReader
 from sharedClasses import LiteralEvent, MatchEvent, EndEvent
-from defaultSymbols import length_base, length_extra_bits, distance_base, distance_extra_bits
+from deflateSymbols import length_base, length_extra_bits, distance_base, distance_extra_bits
 
 
 def _bit_width(max_val: int) -> int:

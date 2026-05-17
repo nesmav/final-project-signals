@@ -1,0 +1,15 @@
+Hello! This is a sample file for testing your compression program.
+
+The quick brown fox jumps over the lazy dog.
+The quick brown fox jumps over the lazy dog.
+The quick brown fox jumps over the lazy dog.
+
+Repeated text like this compresses very well with LZ77 because it can
+reference earlier matches in the data instead of storing them again.
+
+Here are some more repeated phrases to give the compressor something to work with:
+- compression compression compression
+- huffman huffman huffman
+- signals signals signals signals signals
+
+The end.
