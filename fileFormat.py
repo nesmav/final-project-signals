@@ -49,14 +49,18 @@ def write_compressed(events: list, lit_codes: list, dist_codes: list,
 
 
 def _build_decode_table(lengths: list) -> dict:
-    count = [0] * 16
+    if not lengths or max(lengths) == 0:
+        return {}
+
+    max_len = max(lengths)
+    count = [0] * (max_len + 1)
     for l in lengths:
         count[l] += 1
     count[0] = 0
 
-    next_code = [0] * 16
+    next_code = [0] * (max_len + 1)
     code = 0
-    for bits in range(1, 16):
+    for bits in range(1, max_len + 1):
         code = (code + count[bits - 1]) << 1
         next_code[bits] = code
 
@@ -70,13 +74,13 @@ def _build_decode_table(lengths: list) -> dict:
 
 
 def _read_symbol(reader: BitReader, decode_table: dict) -> int:
+    max_bits = max(len(k) for k in decode_table)
     bits = ""
-    for _ in range(16):
+    for _ in range(max_bits):
         bits += str(reader.read_bits(1))
         if bits in decode_table:
             return decode_table[bits]
     raise ValueError(f"Invalid Huffman code encountered: {bits}")
-
 
 def read_compressed(data: bytes) -> bytes:
     reader = BitReader(data)
@@ -116,6 +120,13 @@ def read_compressed(data: bytes) -> bytes:
             distance     = base_dist + extra_dist
 
             start = len(output) - distance
+
+            if start < 0:
+                raise ValueError(
+                    f"Invalid back-reference: distance={distance} "
+                    f"exceeds output size={len(output)}"
+                )
+
             for k in range(length):
                 output.append(output[start + k])
 

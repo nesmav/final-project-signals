@@ -24,8 +24,8 @@ def compress(input_path: str):
     lit_lengths  = get_lengths(lit_tree, root1, lit_freq)
     dist_lengths = get_lengths(dist_tree, root2, dist_freq)
 
-    lit_codes  = canonical_encode(lit_lengths[:])
-    dist_codes = canonical_encode(dist_lengths[:])
+    lit_codes  = canonical_encode(lit_lengths)
+    dist_codes = canonical_encode(dist_lengths)
 
     compressed = write_compressed(events, lit_codes, dist_codes,
                                   lit_lengths, dist_lengths)
