@@ -54,11 +54,8 @@ distance_extra_bits = [
     13, 13
 ]
 
-
 def encode_length(length: int):
-    if length == 258:
-        return 285, ""
-    for i in range(len(length_base) - 1):
+    for i in range(len(length_base)):
         base      = length_base[i]
         n_extra   = length_extra_bits[i]
         range_end = base + (1 << n_extra) - 1
@@ -67,11 +64,9 @@ def encode_length(length: int):
             extra_value = length - base
             extra_str   = format(extra_value, f'0{n_extra}b') if n_extra > 0 else ""
             return symbol, extra_str
-    return 285, ""
-
 
 def encode_distance(distance: int):
-    for i in range(len(distance_base) - 1):
+    for i in range(len(distance_base)):
         base      = distance_base[i]
         n_extra   = distance_extra_bits[i]
         range_end = base + (1 << n_extra) - 1
@@ -80,15 +75,6 @@ def encode_distance(distance: int):
             extra_value = distance - base
             extra_str   = format(extra_value, f'0{n_extra}b') if n_extra > 0 else ""
             return symbol, extra_str
-
-    i = 29
-    base = distance_base[i]
-    n_extra = distance_extra_bits[i]
-    symbol = i
-    extra_value = distance - base
-    extra_str = format(extra_value, f'0{n_extra}b')
-    return symbol, extra_str
-
 
 def lz77_to_events(tokens: list) -> list:
     events = []
